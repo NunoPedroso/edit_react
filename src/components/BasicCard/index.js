@@ -1,5 +1,7 @@
 import "./basic-card.css";
 
+import noImage from '../../data/article-writing.png'
+
 function BasicCard(props) {
     const dateFormat = (date, format) => {
         if (Date.parse(date)) {
@@ -26,7 +28,7 @@ function BasicCard(props) {
 
     const date = dateFormat(props.date, "DD-MM-YYYY");
 
-    const image = props.imgPath || props.imgSocial;
+    const image = props.imgPath || props.imgSocial || noImage;
 
     return (
         <div className="basic-card" id={props.id}>
