@@ -27,7 +27,7 @@ function Form() {
         }
     }
 
-    const hadleChange = (event) => {
+    const handleChange = (event) => {
         setInputValue(event.target.value)
     }
 
@@ -81,6 +81,7 @@ function Form() {
         };
 
         getArticles();
+        
     }, [url]);
 
 
@@ -104,7 +105,7 @@ function Form() {
         <>
 
             <form className="formData" onSubmit={handleSubmit}>
-                <input onChange={hadleChange}/>
+                <input onChange={handleChange}/>
                 <button type="submit">Search</button>
             </form>
 
