@@ -32,63 +32,65 @@ function Form() {
     }
 
     useEffect(() => {
-        console.log(data)
+
+        const getArticles = () => {
+            setLoading(true)
+            fetch(url)
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    return Promise.reject(response);
+                })
+                .then((result) => {
+                    setData(result);
+                    setError(false);
+                })
+                .catch((err) => {
+                    const foundError = errorsApiRest.find((e) => e.status === err.status);
+                    const errorMessage = () => {
+                        if (foundError) {
+                            return (
+                                <>
+                                    <p>
+                                        Oops, something went wrong... error <b>{foundError.status}</b>{" "}
+                                        detected!
+                                    </p>
+                                    <p>
+                                        <b>Reason :</b> {foundError.Reason}
+                                    </p>
+                                    <p>
+                                        <b>Possible cause :</b> {foundError.description}
+                                    </p>
+                                </>
+                            );
+                        } else {
+                            return (
+                                <p>
+                                    Oops, something went wrong... <b>unknown</b> error detected!
+                                </p>
+                            );
+                        }
+                    };
+                    setError(errorMessage);
+                    setData([]);
+                })
+                .finally(() =>{
+                    setLoading(false)
+                })
+        };
+
         getArticles();
     }, [url]);
 
-    const getArticles = () => {
-        setLoading(true)
-        fetch(url)
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                }
-                return Promise.reject(response);
-            })
-            .then((result) => {
-                console.log(result)
-                setData(result);
-                setError(false);
-            })
-            .catch((err) => {
-                const foundError = errorsApiRest.find((e) => e.status === err.status);
-                const errorMessage = () => {
-                    if (foundError) {
-                        return (
-                            <>
-                                <p>
-                                    Oops, something went wrong... error <b>{foundError.status}</b>{" "}
-                                    detected!
-                                </p>
-                                <p>
-                                    <b>Reason :</b> {foundError.Reason}
-                                </p>
-                                <p>
-                                    <b>Possible cause :</b> {foundError.description}
-                                </p>
-                            </>
-                        );
-                    } else {
-                        return (
-                            <p>
-                                Oops, something went wrong... <b>unknown</b> error detected!
-                            </p>
-                        );
-                    }
-                };
-                setError(errorMessage);
-                setData([]);
-            })
-            .finally(() =>{
-                setLoading(false)
-            })
-    };
+
 
     const articlesArray = data?.map((article) => (
         <BasicCard
             key={article.id}
             id={article.id}
             title={article.title}
+            alt={article.title}
             imgPath={article.cover_image}
             imgSocial={article.social_image}
             date={article.published_at}
@@ -119,15 +121,17 @@ function Form() {
             }
 
             {(loading) &&
-                <div className="spinner">
-                    <Oval
-                        height = "400"
-                        width = "400"
-                        radius = "9"
-                        color = 'green'
-                        ariaLabel = 'three-dots-loading'
-                    />
-                </div>
+
+                    <div className="spinner">
+                        <Oval
+                            height = "200"
+                            width = "200"
+                            radius = "9"
+                            color = 'green'
+                            ariaLabel = 'three-dots-loading'
+                        />
+                    </div>
+
             }
         </>
     );

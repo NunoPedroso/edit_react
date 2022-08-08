@@ -27,6 +27,7 @@ function BasicCard(props) {
     };
 
     const date = dateFormat(props.date, "DD-MM-YYYY");
+    const date1 = new Date(props.date).toLocaleDateString('pt-PT')
 
     const image = props.imgPath || props.imgSocial || noImage;
 
