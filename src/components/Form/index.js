@@ -32,7 +32,6 @@ function Form() {
     }
 
     useEffect(() => {
-        console.log(data)
         getArticles();
     }, [url]);
 
@@ -46,7 +45,6 @@ function Form() {
                 return Promise.reject(response);
             })
             .then((result) => {
-                console.log(result)
                 setData(result);
                 setError(false);
             })
@@ -89,6 +87,7 @@ function Form() {
             key={article.id}
             id={article.id}
             title={article.title}
+            alt={article.title}
             imgPath={article.cover_image}
             imgSocial={article.social_image}
             date={article.published_at}
@@ -119,15 +118,17 @@ function Form() {
             }
 
             {(loading) &&
-                <div className="spinner">
-                    <Oval
-                        height = "400"
-                        width = "400"
-                        radius = "9"
-                        color = 'green'
-                        ariaLabel = 'three-dots-loading'
-                    />
-                </div>
+
+                    <div className="spinner">
+                        <Oval
+                            height = "200"
+                            width = "200"
+                            radius = "9"
+                            color = 'green'
+                            ariaLabel = 'three-dots-loading'
+                        />
+                    </div>
+
             }
         </>
     );
